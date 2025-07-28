@@ -16,6 +16,7 @@ export class Button extends Component<'button', Button.eventMap> {
         this.component.on('click', () => this.dispatch('click'));
         this.component.on('mouseover', () => this.dispatch('hover'));
     }
+    public remove(): void { this.component.remove(); }
     public setText(text: string): void {
         this.text.text(text);
     }
