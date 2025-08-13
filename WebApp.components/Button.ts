@@ -10,15 +10,15 @@ export class Button extends Component<'button', Button.eventMap> {
         this.image = Element.new('img', null, { class: 'Button-image' });
         this.component.append(this.text);
         
-        if (options.class) this.component.setAttribute('class', options.class);
+        if (options.class) this.component.classList.add(options.class);
         if (options.image) this.setImage(options.image);
 
-        this.component.on('click', () => this.dispatch('click'));
-        this.component.on('mouseover', () => this.dispatch('hover'));
+        this.component.on('click', () => this.emit('click'));
+        this.component.on('mouseover', () => this.emit('hover'));
     }
     public remove(): void { this.component.remove(); }
     public setText(text: string): void {
-        this.text.text(text);
+        this.text.text = text;
     }
     public setImage(image?: string): void {
         this.image.setAttribute('src', image || '');

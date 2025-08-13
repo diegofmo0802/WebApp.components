@@ -37,7 +37,7 @@ export class QRGenerator extends Component<'div'> {
         const drawer = qr.imageDrawer;
         if (drawer == null) {
             const errorMessage = 'Posible browser incompatible with Canvas API';
-            this.Error.text(errorMessage);
+            this.Error.text = errorMessage;
             throw new Error(errorMessage);
         }
         await this.show(drawer, style);

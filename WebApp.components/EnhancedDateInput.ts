@@ -38,8 +38,8 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
             ]
         });
 
-        this.monthSelect.on('send', () => this.updateCalendar());
-        this.yearSelect.on('send', () => this.updateCalendar());
+        this.monthSelect.on('submit', () => this.updateCalendar());
+        this.yearSelect.on('submit', () => this.updateCalendar());
         this.updateCalendar();
     }
 
@@ -63,8 +63,8 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
                 this.toggleDate(dayEntry.dateElement, dayEntry.date);
             }
         });
-        this.dispatch('dateChange', [...this.selectedDates.keys()]);
-        this.dispatch('initialize');
+        this.emit('dateChange', [...this.selectedDates.keys()]);
+        this.emit('initialize');
     }
 
     protected createMonthSelect(): SelectInput {
@@ -132,26 +132,26 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
             }
             this.calendarContainer.append(week);
         }
-        this.dispatch('update', year, monthIndex + 1);
+        this.emit('update', year, monthIndex + 1);
     }
 
     protected toggleDate(dateElement: Element<'span'>, date: Date): void {
         if (this.selectedDates.has(date)) {
             this.selectedDates.delete(date);
             dateElement.HTMLElement.classList.remove('selected');
-            this.dispatch('removeDate', date);
+            this.emit('removeDate', date);
         } else {
             if (this.limit >= 1 && this.selectedDates.size === this.limit) {
                 const [[date, element]] = this.selectedDates.entries();
                 this.selectedDates.delete(date);
                 element.HTMLElement.classList.remove('selected');
-                this.dispatch('removeDate', date);
+                this.emit('removeDate', date);
             }
             this.selectedDates.set(date, dateElement);
             dateElement.HTMLElement.classList.add('selected');
-            this.dispatch('addDate', date);
+            this.emit('addDate', date);
         }
-        this.dispatch('dateChange', [...this.selectedDates.keys()]);
+        this.emit('dateChange', [...this.selectedDates.keys()]);
     }
 }
 

@@ -36,7 +36,7 @@ export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
         }).on('change', () => this.loadPreview());
 
         this.component = Element.new('div')
-        .setAttribute('class', `liveImageInput${options.class ? ` ${options.class}` : ''}`)
+        .setAttribute('class', `LiveImageInput${options.class ? ` ${options.class}` : ''}`)
         .append(this.label, this.inputFile);
         if (options.id) this.component.setAttribute('id', options.id);
     }
@@ -54,15 +54,17 @@ export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
         reader.onload = () => {
             this.preview.setAttribute('src', reader.result as string);
             this.loading.finish();
-            this.dispatch('select', file);
+            this.emit('select', file);
         };
         reader.readAsDataURL(file);
     }
-    public getFile(): File | undefined {
-        return this.inputFile.HTMLElement.files?.[0];
+    public get file(): File | null { return this.inputFile.HTMLElement.files?.[0] ?? null; }
+    public set file(file: File | null) {
+        this.inputFile.HTMLElement.files = new FileList();
+        if (file) this.inputFile.HTMLElement.files[0] = file;
+        this.loadPreview();
     }
 }
-
 export namespace LiveImageInput {
     export type formats = 'jpg' | 'jpeg' | 'png' | 'gif';
     export type Listener = (file: File) => void;

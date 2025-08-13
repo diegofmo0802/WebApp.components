@@ -24,7 +24,7 @@ export class SwitchInput extends Component<'div', SwitchInput.EventMap> {
     public toggleState() {
         this.state = !this.state;
         this.component.HTMLElement.classList.toggle('active');
-        this.dispatch('change', this.state);
+        this.emit('change', this.state);
     }
     public getState(): boolean {
         return this.state;

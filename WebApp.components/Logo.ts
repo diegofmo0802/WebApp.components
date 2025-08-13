@@ -12,11 +12,11 @@ export class Logo extends Component<'button', Logo.eventMap> {
         this.text = Element.new('p', text, { class: 'Logo-text' });
         this.component.append(this.image, this.text);
 
-        this.component.on('click', () => this.dispatch('click', this.url));
-        this.component.on('mouseover', () => this.dispatch('hover', this.url));
+        this.component.on('click', () => this.emit('click', this.url));
+        this.component.on('mouseover', () => this.emit('hover', this.url));
     }
     public setText(text: string): void {
-        this.text.text(text);
+        this.text.text = text;
     }
     public setUrl(url?: string): void {
         this.url = url || null;

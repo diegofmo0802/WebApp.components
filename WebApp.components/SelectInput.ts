@@ -10,11 +10,11 @@ export class SelectInput<options extends string[] = string[]> extends Component<
             name: 'select',
             class: 'selectInput'
         }).append(
-            Element.new('option').text(this.placeholder),
-            ...options.map(option => Element.new('option').text(option))
+            Element.new('option', this.placeholder),
+            ...options.map(option => Element.new('option', option))
         );
 
-        this.component.on('change', () => this.dispatch('send', this.getSelected()));
+        this.component.on('change', () => this.emit('submit', this.getSelected()));
     }
     public getSelected(): options[number] {
         if (this.component.HTMLElement.value == this.placeholder) return '';
@@ -28,7 +28,7 @@ export class SelectInput<options extends string[] = string[]> extends Component<
 export namespace SelectInput {
     export type Listener<options extends string[] = string[]> = (selected: options[number]) => void;
     export type EventMap<options extends string[] = string[]> = {
-        send: Listener<options>;
+        submit: Listener<options>;
     }
 }
 

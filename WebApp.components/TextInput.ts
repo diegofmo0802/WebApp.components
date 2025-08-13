@@ -29,7 +29,7 @@ export class TextInput extends Component<'div', TextInput.EventMap> {
         }
 
         if (textButton.length > 0) {
-            this.button = Element.new('button').text(textButton);
+            this.button = Element.new('button', textButton);
         }
 
         this.component = Element.structure({
@@ -40,7 +40,7 @@ export class TextInput extends Component<'div', TextInput.EventMap> {
         if (options.id) this.component.setAttribute('id', options.id);
 
         this.button?.on('click', () => this.send());
-        this.inputText.on('input', () => this.dispatch('input', this.getText()));
+        this.inputText.on('input', () => this.emit('input', this.getText()));
         this.inputText.on('keypress', (event) => {
             if (event.key == 'Enter') this.send();
         });
@@ -49,8 +49,8 @@ export class TextInput extends Component<'div', TextInput.EventMap> {
     public set value(value: string) { this.inputText.HTMLElement.value = value; }
     protected send(): void {
         const text = this.getText();
-        if (this.validator(text)) this.dispatch('send', text);
-        else this.dispatch('invalid', text);
+        if (this.validator(text)) this.emit('submit', text);
+        else this.emit('invalid', text);
     }
     public getText(): string {
         return this.inputText.HTMLElement.value;
@@ -74,7 +74,7 @@ export namespace TextInput {
     export type validator = (text: string) => boolean;
     export type Listener = (text: string) => void;
     export type EventMap = {
-        send: Listener,
+        submit: Listener,
         input: Listener,
         invalid: Listener,
     }
