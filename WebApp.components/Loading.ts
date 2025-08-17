@@ -2,9 +2,9 @@ import { Element, Component } from '../WebApp/WebApp.js';
 
 
 export class Loading extends Component<'div'> {
-    protected component: Element<"div">;
+    protected root: Element<"div">;
     constructor(icon: string) { super();
-        this.component = Element.structure({
+        this.root = Element.structure({
             type: 'div', attribs: { class: 'Loading Loading-spawning' }, childs: [
                 { type: 'div', childs: [
                     { type: 'img', attribs: { src: icon } },
@@ -14,21 +14,21 @@ export class Loading extends Component<'div'> {
         });
     }
     public spawn(parent: Element, duration: number = 500, solid: boolean = false) {
-        if (solid) this.component.setAttribute('solid', '');
-        parent.append(this.component);
-        this.component.animate([
+        if (solid) this.root.setAttribute('solid', '');
+        parent.append(this.root);
+        this.root.animate([
             { opacity: 0 },
             { opacity: 1 }
         ], { duration, iterations: 1 });
     }
     public finish(duration: number = 500) {
-        this.component.animate([
+        this.root.animate([
             { opacity: 1 },
             { opacity: 0 }
         ], { duration, iterations: 1 })
         .addEventListener('finish', () => {
-            this.component.remove()
-            this.component.removeAttribute('solid');
+            this.root.remove()
+            this.root.removeAttribute('solid');
         });
     }
 }

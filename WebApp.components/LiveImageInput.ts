@@ -2,7 +2,7 @@ import { Element, Component } from '../WebApp/WebApp.js';
 import Loading from './Loading.js';
 
 export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
-    protected component: Element<"div">;
+    protected root: Element<"div">;
     protected inputFile: Element<"input">;
     protected label: Element<"label">;
     protected preview: Element<"img">;
@@ -35,17 +35,17 @@ export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
             id: this.id
         }).on('change', () => this.loadPreview());
 
-        this.component = Element.new('div')
+        this.root = Element.new('div')
         .setAttribute('class', `LiveImageInput${options.class ? ` ${options.class}` : ''}`)
         .append(this.label, this.inputFile);
-        if (options.id) this.component.setAttribute('id', options.id);
+        if (options.id) this.root.setAttribute('id', options.id);
     }
     public get src(): string { return this.preview.getAttribute('src') ?? ''; }
     public set src(src: string) {
         this.preview.setAttribute('src', src);
     }
     protected loadPreview(): void {
-        const file = this.inputFile.HTMLElement.files?.[0];
+        const file = this.inputFile.root.files?.[0];
         if (!file) {
             this.preview.setAttribute('src', this.default); return;
         }
@@ -58,10 +58,10 @@ export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
         };
         reader.readAsDataURL(file);
     }
-    public get file(): File | null { return this.inputFile.HTMLElement.files?.[0] ?? null; }
+    public get file(): File | null { return this.inputFile.root.files?.[0] ?? null; }
     public set file(file: File | null) {
-        this.inputFile.HTMLElement.files = new FileList();
-        if (file) this.inputFile.HTMLElement.files[0] = file;
+        this.inputFile.root.files = new FileList();
+        if (file) this.inputFile.root.files[0] = file;
         this.loadPreview();
     }
 }

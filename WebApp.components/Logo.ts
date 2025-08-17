@@ -1,19 +1,19 @@
 import { Component, Element } from '../WebApp/WebApp.js';
 
 export class Logo extends Component<'button', Logo.eventMap> {
-    protected component: Element<"button">;
+    protected root: Element<"button">;
     protected text: Element<'p'>;
     protected image: Element<'img'>;
     protected url: string | null;
     public constructor(text: string, image: string, url: string | null = null) { super();
         this.url = url;
-        this.component = Element.new('button', null, { class: 'Logo' });
+        this.root = Element.new('button', null, { class: 'Logo' });
         this.image = Element.new('img', null, { class: 'Logo-image', src: image || '' });
         this.text = Element.new('p', text, { class: 'Logo-text' });
-        this.component.append(this.image, this.text);
+        this.root.append(this.image, this.text);
 
-        this.component.on('click', () => this.emit('click', this.url));
-        this.component.on('mouseover', () => this.emit('hover', this.url));
+        this.root.on('click', () => this.emit('click', this.url));
+        this.root.on('mouseover', () => this.emit('hover', this.url));
     }
     public setText(text: string): void {
         this.text.text = text;

@@ -3,7 +3,7 @@ import TextInput from './TextInput.js';
 import SelectInput from './SelectInput.js';
 
 export class MultiTagInput extends Component<'div', MultiTagInput.EventMap> {
-    protected component: Element<"div">;
+    protected root: Element<"div">;
     protected tagInput: TextInput | SelectInput;
     protected tagContainer: Element<'div'>;
     protected limit: number;
@@ -33,10 +33,10 @@ export class MultiTagInput extends Component<'div', MultiTagInput.EventMap> {
             this.tagInput.on('submit', (tag: string) => { this.addTag(tag) });
         }
         
-        this.component = Element.structure({
+        this.root = Element.structure({
             type: 'div', attribs: { class: 'multiTagInput' }, childs: [
                 this.tagContainer,
-                this.tagInput.getComponent()
+                this.tagInput.element
             ]
         });
     }

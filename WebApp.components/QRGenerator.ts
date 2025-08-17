@@ -3,7 +3,7 @@ import QR, { Drawer } from '../QR-Code/QR.js';
 import Style from '../QR-Code/Style.js';
 
 export class QRGenerator extends Component<'div'> {
-    protected component: Element<'div'>;
+    protected root: Element<'div'>;
     protected Error: Element<'p'>;
     protected Viewer: Element<'img'>;
     protected showing: Promise<any> | null = null;
@@ -14,7 +14,7 @@ export class QRGenerator extends Component<'div'> {
 
         this.Error = Element.new('p').setAttribute('class', 'QRGenerator-Error');
         this.Viewer = Element.new('img').setAttribute('class', 'QRGenerator-Viewer');
-        this.component = Element.new('div').setAttribute('class', componentClass);
+        this.root = Element.new('div').setAttribute('class', componentClass);
 
         downloadButton.addEventListener('click', async () => {
             const url = this.Viewer.getAttribute('src');
@@ -22,11 +22,11 @@ export class QRGenerator extends Component<'div'> {
             const link = Element.new('a');
             link.setAttribute('download', 'QR.png');
             link.setAttribute('href', url);
-            link.HTMLElement.click();
+            link.root.click();
         });
 
-        if (id) this.component.setAttribute('id', id);
-        this.component.append(this.Viewer, this.Error, downloadButton);
+        if (id) this.root.setAttribute('id', id);
+        this.root.append(this.Viewer, this.Error, downloadButton);
     }
     public async generate(data: string, options: QRGenerator.generateOptions = {}): Promise<void> {
         const { correctionLevel = 'L', style = {} } = options;

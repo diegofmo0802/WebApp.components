@@ -1,7 +1,7 @@
 import { Element, Component } from '../WebApp/WebApp.js';
 
 export class TextInput extends Component<'div', TextInput.EventMap> {
-    protected component: Element<"div">;
+    protected root: Element<"div">;
     protected inputText: Element<"input"> | Element<"textarea">;
     protected button?: Element<"button">;
     protected validator: TextInput.validator;
@@ -18,26 +18,26 @@ export class TextInput extends Component<'div', TextInput.EventMap> {
                 name: name,
                 placeholder: placeholder,
             });
-            if (options.value) this.inputText.HTMLElement.value = options.value;
+            if (options.value) this.inputText.root.value = options.value;
         } else {
             this.inputText = Element.new('input').setAttributes({
                 type: type,
                 name: name,
                 placeholder: placeholder,
             });
-            if (options.value) this.inputText.HTMLElement.value = options.value;
+            if (options.value) this.inputText.root.value = options.value;
         }
 
         if (textButton.length > 0) {
             this.button = Element.new('button', textButton);
         }
 
-        this.component = Element.structure({
+        this.root = Element.structure({
             type: 'div', attribs: { class: `textInput${options.class ? ` ${options.class}` : ''}` }, childs: [
                 this.inputText, ...(this.button ? [this.button] : [])
             ]
         });
-        if (options.id) this.component.setAttribute('id', options.id);
+        if (options.id) this.root.setAttribute('id', options.id);
 
         this.button?.on('click', () => this.send());
         this.inputText.on('input', () => this.emit('input', this.getText()));
@@ -45,18 +45,18 @@ export class TextInput extends Component<'div', TextInput.EventMap> {
             if (event.key == 'Enter') this.send();
         });
     }
-    public get value(): string { return this.inputText.HTMLElement.value; }
-    public set value(value: string) { this.inputText.HTMLElement.value = value; }
+    public get value(): string { return this.inputText.root.value; }
+    public set value(value: string) { this.inputText.root.value = value; }
     protected send(): void {
         const text = this.getText();
         if (this.validator(text)) this.emit('submit', text);
         else this.emit('invalid', text);
     }
     public getText(): string {
-        return this.inputText.HTMLElement.value;
+        return this.inputText.root.value;
     }
     public clear(): void {
-        this.inputText.HTMLElement.value = '';
+        this.inputText.root.value = '';
     }
 }
 

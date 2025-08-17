@@ -1,15 +1,15 @@
 import { Element, Component } from '../WebApp/WebApp.js';
 
 export class SwitchInput extends Component<'div', SwitchInput.EventMap> {
-    protected component: Element<"div">;
-    protected state: boolean;
+    protected root: Element<"div">;
+    protected vState: boolean;
     public constructor(defaultState: boolean = true, label: string = '') { super();
         const id = 'switchInput-' + Math.random().toString(36).substring(2, 9);
         
-        this.state = defaultState;
+        this.vState = defaultState;
 
-        this.component = Element.structure({
-            type: 'div', attribs: { class: `switchInput ${this.state ? 'active' : ''}` }, childs: [
+        this.root = Element.structure({
+            type: 'div', attribs: { class: `switchInput ${this.vState ? 'active' : ''}` }, childs: [
                 { type: 'label', text: label, attribs: { for: id }, events: {
                     click: () => this.toggleState()
                 } },
@@ -22,12 +22,17 @@ export class SwitchInput extends Component<'div', SwitchInput.EventMap> {
         })
     }
     public toggleState() {
-        this.state = !this.state;
-        this.component.HTMLElement.classList.toggle('active');
-        this.emit('change', this.state);
+        this.vState = !this.vState;
+        this.root.root.classList.toggle('active');
+        this.emit('change', this.vState);
     }
     public getState(): boolean {
-        return this.state;
+        return this.vState;
+    }
+    public get value(): boolean { return this.vState; }
+    public set value(value: boolean) {
+        if (value === this.vState) return;
+        this.toggleState();
     }
 }
 

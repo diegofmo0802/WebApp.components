@@ -1,28 +1,29 @@
 import { Component, Element } from '../WebApp/WebApp.js';
 
 export class Button extends Component<'button', Button.eventMap> {
-    protected component: Element<"button">;
+    protected root: Element<"button">;
     protected text: Element<'span'>;
     protected image: Element<'img'>;
     public constructor(text: string, options: Button.options = {}) { super();
-        this.component = Element.new('button', null, { class: 'Button' });
+        this.root = Element.new('button', null, { class: 'Button' });
         this.text = Element.new('span', text, { class: 'Button-text' });
         this.image = Element.new('img', null, { class: 'Button-image' });
-        this.component.append(this.text);
+        this.root.append(this.text);
         
-        if (options.class) this.component.classList.add(options.class);
+
+        console.log(this.root.classList, options.class)
+        if (options.class) this.root.classList.add(...options.class.split(' '));
         if (options.image) this.setImage(options.image);
 
-        this.component.on('click', () => this.emit('click'));
-        this.component.on('mouseover', () => this.emit('hover'));
+        this.root.on('click', () => this.emit('click'));
+        this.root.on('mouseover', () => this.emit('hover'));
     }
-    public remove(): void { this.component.remove(); }
     public setText(text: string): void {
         this.text.text = text;
     }
     public setImage(image?: string): void {
         this.image.setAttribute('src', image || '');
-        if (image) this.image.appendTo(this.component);
+        if (image) this.image.appendTo(this.root);
         else this.image.remove();
     }
 }

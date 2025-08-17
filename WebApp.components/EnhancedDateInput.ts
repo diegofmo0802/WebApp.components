@@ -7,7 +7,7 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
         'May', 'June', 'July', 'August',
         'September', 'October', 'November', 'December'
     ];
-    protected component: Element<"div">;
+    protected root: Element<"div">;
     protected monthSelect: SelectInput;
     protected yearSelect: SelectInput;
     protected calendarContainer: Element<"div">;
@@ -27,11 +27,11 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
         this.days = new Map();
         this.calendarContainer = Element.new('div').setAttribute('class', 'enhancedDateInput-calendar');
 
-        this.component = Element.structure({
+        this.root = Element.structure({
             type: 'div', attribs: { class: 'enhancedDateInput' }, childs: [
                 Element.new('div').setAttribute('class', 'enhancedDateInput-selects').append(
-                    this.monthSelect.getComponent(),
-                    this.yearSelect.getComponent()
+                    this.monthSelect.element,
+                    this.yearSelect.element
                 ),
                 this.createWeekdaysHeader(),
                 this.calendarContainer
@@ -113,7 +113,7 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            if (week.HTMLElement.childNodes.length === 7) {
+            if (week.root.childNodes.length === 7) {
                 this.calendarContainer.append(week);
                 week = Element.new('div').setAttribute('class', 'enhancedDateInput-week');
             }
@@ -125,8 +125,8 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
             this.days.set(day, {dateElement, date});
         }
 
-        if (week.HTMLElement.childNodes.length > 0) {
-            const emptyDays = 7 - week.HTMLElement.childNodes.length;
+        if (week.root.childNodes.length > 0) {
+            const emptyDays = 7 - week.root.childNodes.length;
             for (let i = 0; i < emptyDays; i++) {
                 week.append(Element.new('span').setAttribute('class', 'enhancedDateInput-date empty'));
             }
@@ -138,17 +138,17 @@ export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventM
     protected toggleDate(dateElement: Element<'span'>, date: Date): void {
         if (this.selectedDates.has(date)) {
             this.selectedDates.delete(date);
-            dateElement.HTMLElement.classList.remove('selected');
+            dateElement.root.classList.remove('selected');
             this.emit('removeDate', date);
         } else {
             if (this.limit >= 1 && this.selectedDates.size === this.limit) {
                 const [[date, element]] = this.selectedDates.entries();
                 this.selectedDates.delete(date);
-                element.HTMLElement.classList.remove('selected');
+                element.root.classList.remove('selected');
                 this.emit('removeDate', date);
             }
             this.selectedDates.set(date, dateElement);
-            dateElement.HTMLElement.classList.add('selected');
+            dateElement.root.classList.add('selected');
             this.emit('addDate', date);
         }
         this.emit('dateChange', [...this.selectedDates.keys()]);
