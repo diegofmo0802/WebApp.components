@@ -17,20 +17,20 @@ export class Button extends Component<'button', Button.eventMap> {
         this.setupOptions(options);
     }
     private setupOptions(options: Button.options) {
+        if (options.image) this.image = options.image;
         if (options.id != null) this.root.id = options.id;
         if (options.class != null) {
             const classes = options.class.split(' ');
             this.root.classList.add(...classes);
         }
-        if (options.image) this.eImage.root.src = options.image;
     }
-    public setText(text: string): void {
-        this.eText.text = text;
-    }
-    public setImage(image?: string): void {
-        this.eImage.setAttribute('src', image || '');
-        if (image) this.eImage.appendTo(this.root);
-        else this.eImage.remove();
+    public get text(): string { return this.eText.text; }
+    public set text(text: string) { this.eText.text = text; }
+    public get image(): string { return this.eImage.root.src }
+    public set image(value: string | null) {
+        this.eImage.root.src = value || '';
+        if (!value) this.eImage.remove();
+        else this.eImage.appendTo(this.root);
     }
 }
 export namespace Button {
