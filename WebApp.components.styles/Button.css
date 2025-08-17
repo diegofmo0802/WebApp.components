@@ -3,24 +3,20 @@
     outline-style: none;
     cursor: pointer;
     display: flex;
-    > .Button-text {
+    > .text {
         flex: 0 0 auto;
         text-align: center;
     }
-    > .Button-image {
+    > .image {
         aspect-ratio: 1 / 1;
         width: 100%;
         max-width: 100%;
         object-fit: cover;
     }
-}
-.Button:hover {
-    filter: brightness(0.9);
-}
-.Button:disabled {
-    cursor: not-allowed;
-    filter: grayscale(1);
-}
-.Button:active {
-    filter: brightness(0.8);
+    &:hover { filter: brightness(0.9); }
+    &:active { filter: brightness(0.8); }
+    &:disabled {
+        cursor: not-allowed;
+        filter: grayscale(1);
+    }
 }

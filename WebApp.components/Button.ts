@@ -2,39 +2,46 @@ import { Component, Element } from '../WebApp/WebApp.js';
 
 export class Button extends Component<'button', Button.eventMap> {
     protected root: Element<"button">;
-    protected text: Element<'span'>;
-    protected image: Element<'img'>;
+    private eText: Element<'span'>;
+    private eImage: Element<'img'>;
     public constructor(text: string, options: Button.options = {}) { super();
         this.root = Element.new('button', null, { class: 'Button' });
-        this.text = Element.new('span', text, { class: 'Button-text' });
-        this.image = Element.new('img', null, { class: 'Button-image' });
-        this.root.append(this.text);
-        
+        this.eText = Element.new('span', text, { class: 'text' });
+        this.eImage = Element.new('img', null, { class: 'image' });
 
-        console.log(this.root.classList, options.class)
-        if (options.class) this.root.classList.add(...options.class.split(' '));
-        if (options.image) this.setImage(options.image);
+        this.root.append(this.eText);
 
         this.root.on('click', () => this.emit('click'));
         this.root.on('mouseover', () => this.emit('hover'));
+
+        this.setupOptions(options);
+    }
+    private setupOptions(options: Button.options) {
+        if (options.id != null) this.root.id = options.id;
+        if (options.class != null) {
+            const classes = options.class.split(' ');
+            this.root.classList.add(...classes);
+        }
+        if (options.image) this.eImage.root.src = options.image;
     }
     public setText(text: string): void {
-        this.text.text = text;
+        this.eText.text = text;
     }
     public setImage(image?: string): void {
-        this.image.setAttribute('src', image || '');
-        if (image) this.image.appendTo(this.root);
-        else this.image.remove();
+        this.eImage.setAttribute('src', image || '');
+        if (image) this.eImage.appendTo(this.root);
+        else this.eImage.remove();
     }
 }
 export namespace Button {
-    export type options = {
-        class?: string
-        image?: string
-    }
     export type eventMap = {
         click: () => void
         hover: () => void
+    }
+    export type options = {
+        id?: string;
+        class?: string;
+        image?: string;
     }
 }
 export default Button;
