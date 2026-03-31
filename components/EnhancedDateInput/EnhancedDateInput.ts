@@ -1,7 +1,10 @@
-import { Element, Component } from '../WebApp/WebApp.js';
-import SelectInput from './SelectInput.js';
+import { Element, Component } from 'Vizui';
+
+import SelectInput from '../SelectInput/SelectInput.js';
 
 export class EnhancedDateInput extends Component<'div', EnhancedDateInput.EventMap> {
+    static { this.css.load('${basicComponents}/EnhancedDateInput/EnhancedDateInput.css'); }
+
     protected static readonly MOTHS: string[] = [
         'January', 'February', 'March', 'April',
         'May', 'June', 'July', 'August',

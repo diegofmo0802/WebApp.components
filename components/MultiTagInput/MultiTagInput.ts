@@ -1,8 +1,10 @@
-import { Element, Events, Component } from '../WebApp/WebApp.js';
-import TextInput from './TextInput.js';
-import SelectInput from './SelectInput.js';
+import { Element, Events, Component } from 'Vizui';
+import TextInput from '../TextInput/TextInput.js';
+import SelectInput from '../SelectInput/SelectInput.js';
 
 export class MultiTagInput extends Component<'div', MultiTagInput.EventMap> {
+    static { this.css.load('${basicComponents}/MultiTagInput/MultiTagInput.css'); }
+
     protected root: Element<"div">;
     protected tagInput: TextInput | SelectInput;
     protected tagContainer: Element<'div'>;

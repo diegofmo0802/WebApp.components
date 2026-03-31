@@ -1,6 +1,7 @@
-import { Element, Component } from '../WebApp/WebApp.js';
+import { Element, Component } from 'Vizui';
 
 export class TextInput extends Component<'div', TextInput.EventMap> {
+    static { this.css.load('${basicComponents}/TextInput/TextInput.css'); }
     protected root: Element<"div">;
     protected inputText: Element<"input"> | Element<"textarea">;
     protected button?: Element<"button">;

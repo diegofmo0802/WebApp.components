@@ -1,6 +1,8 @@
-import { Element, Component } from '../WebApp/WebApp.js';
+import { Element, Component } from 'Vizui';
 
 export class SwitchInput extends Component<'div', SwitchInput.EventMap> {
+    static { this.css.load('${basicComponents}/SwitchInput/SwitchInput.css'); }
+
     protected root: Element<"div">;
     protected vState: boolean;
     public constructor(defaultState: boolean = true, label: string = '') { super();

@@ -1,6 +1,8 @@
-import { Element, Component } from '../WebApp/WebApp.js';
+import { Element, Component } from 'Vizui';
 
 export class NumericInput extends Component<'div', NumericInput.eventMap> {
+    static { this.css.load('${basicComponents}/NumericInput/NumericInput.css'); }
+
     protected root: Element<"div">;
     private input: Element<"input">;
     private button?: Element<"button">;

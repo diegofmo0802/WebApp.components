@@ -1,7 +1,9 @@
-import { Element, Component } from '../WebApp/WebApp.js';
+import { Element, Component } from 'Vizui';
 
 
 export class Loading extends Component<'div'> {
+    static { this.css.load('${basicComponents}/Loading/Loading.css'); }
+
     protected root: Element<"div">;
     constructor(icon: string) { super();
         this.root = Element.structure({

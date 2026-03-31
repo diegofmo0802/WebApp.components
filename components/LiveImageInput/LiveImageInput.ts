@@ -1,7 +1,10 @@
-import { Element, Component } from '../WebApp/WebApp.js';
-import Loading from './Loading.js';
+import { Element, Component } from 'Vizui';
+
+import Loading from '../Loading/Loading.js';
 
 export class LiveImageInput extends Component<'div', LiveImageInput.EventMap> {
+    static { this.css.load('${basicComponents}/LiveImageInput/LiveImageInput.css'); }
+
     protected root: Element<"div">;
     protected inputFile: Element<"input">;
     protected label: Element<"label">;

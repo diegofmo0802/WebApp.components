@@ -1,6 +1,8 @@
-import { Element, Component } from '../WebApp/WebApp.js';
+import { Element, Component } from 'Vizui';
 
 export class SelectInput<options extends string[] = string[]> extends Component<'select', SelectInput.EventMap<options>> {
+    static { this.css.load('${basicComponents}/SelectInput/SelectInput.css'); }
+
     protected root: Element<"select">;
     protected placeholder: string;
     public constructor(options: options, placeholder: string = 'select') { super();

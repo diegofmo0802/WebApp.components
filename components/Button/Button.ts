@@ -1,28 +1,35 @@
-import { Component, Element } from '../WebApp/WebApp.js';
+import { Component, Element } from 'Vizui';
+
+import Utilities from 'components.basic/Utilities.js';
 
 export class Button extends Component<'button', Button.eventMap> {
+    static { this.css.load('${basicComponents}/Button/Button.css'); }
+
     protected root: Element<"button">;
+
     private eText: Element<'span'>;
     private eImage: Element<'img'>;
+
+    /**
+     * Create a button component with text and an optional image.
+     * @param text - The text to display on the button.
+     * @param options - Optional configuration for the button, including id, class, and image.
+     */
     public constructor(text: string, options: Button.options = {}) { super();
         this.root = Element.new('button', null, { class: 'Button' });
-        this.eText = Element.new('span', text, { class: 'text' });
+
+        this.eText = Element.new('span', text);
         this.eImage = Element.new('img', null, { class: 'image' });
 
-        this.root.append(this.eText);
+        const eTextContainer = Element.new('div', null, { class: 'text' }).append(this.eText);
+
+        this.root.append(this.eImage, eTextContainer);
 
         this.root.on('click', () => this.emit('click'));
         this.root.on('mouseover', () => this.emit('hover'));
 
-        this.setupOptions(options);
-    }
-    private setupOptions(options: Button.options) {
-        if (options.image) this.image = options.image;
-        if (options.id != null) this.root.id = options.id;
-        if (options.class != null) {
-            const classes = options.class.split(' ');
-            this.root.classList.add(...classes);
-        }
+        Utilities.setIdentity(this, options);
+        this.image = options.image || null;
     }
     public get text(): string { return this.eText.text; }
     public set text(text: string) { this.eText.text = text; }
